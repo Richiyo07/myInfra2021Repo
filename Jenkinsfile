@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'bea6ca35-a34e-4da3-9ee9-9570b8ce7fbc', url: 'https://github.com/Richiyo07/myInfra2021Repo']])
+            checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'bea6ca35-a34e-4da3-9ee9-9570b8ce7fbc', url: 'https://github.com/Richiyo07/myInfra2021Repo']])
             }
         }
     
