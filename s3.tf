@@ -1,4 +1,4 @@
-resource "myaws-buck" {
+resource "my-s3-bucket-for-tf-state" {
   bucket_prefix = var.bucket_prefix
   acl = var.acl
   
