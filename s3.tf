@@ -1,4 +1,4 @@
-resource "my-s3-bucket-for-tf-state" {
+resource "my-yohyoh-s3-bucket" {
   bucket_prefix = var.bucket_prefix
   acl = var.acl
   
