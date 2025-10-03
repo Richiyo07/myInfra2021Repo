@@ -33,8 +33,8 @@ resource "aws_vpc" "sonar" {
       }
     }
 resource "aws_instance" "mySonarInstance" {
-      ami           = "ami-026ebd4cfe2c043b2"
-      key_name = "myjenkinkey3"
+      ami           = "ami-0d9a665f802ae6227"
+      key_name = "kennedykey"
       instance_type = "t2.small"
       vpc_security_group_ids = [aws_security_group.security_sonar_group_2023.id]
 
