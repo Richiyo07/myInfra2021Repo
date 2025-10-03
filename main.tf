@@ -1,43 +1,63 @@
-    provider "aws" {
-      region = "us-east-1" # Replace with your desired region
-    }
-    resource "aws_vpc" "sonarqube_vpc" {
-      cidr_block = "10.0.0.0/16"
-      tags = {
-        Name = "sonarqube-vpc"
-      }
-    }
+provider "aws" {
+  region = var.aws_region
+}
 
-    resource "aws_subnet" "sonarqube_subnet" {
-      vpc_id     = aws_vpc.sonarqube_vpc.id
-      cidr_block = "10.0.1.0/24"
-      availability_zone = "us-east-1a" # Adjust AZ
-      tags = {
-        Name = "sonarqube-subnet"
-      }
-    }
+resource "aws_vpc" "main" {
+  cidr_block = "172.16.0.0/16"
+  instance_tenancy = "default"
+  tags = {
+    Name = "main"
+  }
+}
 
-    resource "aws_security_group" "sonarqube_sg" {
-      vpc_id = aws_vpc.sonarqube_vpc.id
-      ingress {
-        from_port   = 22
-        to_port     = 22
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"] # Restrict to your IP range for security
-      }
-      ingress {
-        from_port   = 9000 # SonarQube default port
-        to_port     = 9000
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"] # Restrict as needed
-      }
-      egress {
-        from_port   = 0
-        to_port     = 0
-        protocol    = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
-      tags = {
-        Name = "sonarqube-security-group"
-      }
-    }
+
+#Create security group with firewall rules
+resource "aws_security_group" "jenkins-sg-2023" {
+  name        = var.security_group
+  description = "security group for jenkins"
+                                        
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+ ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+ # outbound from Jenkins server
+  egress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags= {
+    Name = var.security_group
+  }
+}
+
+resource "aws_instance" "myFirstInstance" {
+  ami           = var.ami_id
+  key_name = var.key_name
+  instance_type = var.instance_type
+  vpc_security_group_ids = [aws_security_group.jenkins-sg-2023.id]
+  tags= {
+    Name = var.tag_name
+  }
+}
+
+# Create Elastic IP address
+resource "aws_eip" "myElasticIP" {
+  domain      = "vpc"
+  instance = aws_instance.myFirstInstance.id
+tags= {
+    Name = "jenkins_elastic_ip"
+  }
+}
