@@ -1,7 +1,7 @@
 resource "aws_vpc" "sonar" {
   cidr_block = "172.16.0.0/16"
   instance_tenancy = "default"
-  tags = {
+  tags = {}
     Name = "sonar_vpc"
   }
 }
