@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Configure the AWS provider
 provider "aws" {
   region = "us-east-1" # Specify your desired AWS region
@@ -11,5 +12,15 @@ resource "aws_s3_bucket" "my_bucket" {
   tags = {
     Name        = "MyApplicationBucket"
     Environment = "Development"
+=======
+resource "aws_s3_bucket" "my-s3-bucket" {
+  bucket_prefix = var.bucket_prefix
+  acl = var.acl
+  
+   versioning {
+    enabled = var.versioning
+>>>>>>> d1d8d507f5216990d94052769d477773a87740ca
   }
+  
+  tags = var.tags
 }

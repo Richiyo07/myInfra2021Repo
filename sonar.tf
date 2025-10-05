@@ -35,7 +35,7 @@ resource "aws_vpc" "sonar" {
 resource "aws_instance" "mySonarInstance" {
       ami           = "ami-0d9a665f802ae6227"
       key_name = "kennedykey"
-      instance_type = "t2.small"
+      instance_type = "t2.medium"
       vpc_security_group_ids = [aws_security_group.security_sonar_group_2023.id]
 
       tags= {
