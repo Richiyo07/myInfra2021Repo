@@ -10,7 +10,7 @@ resource "aws_instance" "mySonarInstance" {
 
 #Create security group with firewall rules
 resource "aws_security_group" "sonar-sg-2023" {
-  name        = "my-sonar-sg-group-2025"
+  name        = "my-sonar-sg-group-2005"
   description = "security group for Sonar"
                                         
   ingress {
