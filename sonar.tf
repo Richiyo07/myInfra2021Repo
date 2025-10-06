@@ -1,53 +1,37 @@
-resource "aws_vpc" "sonar" {
-  cidr_block = "172.16.0.0/16"
-  instance_tenancy = "default"
-  tags = {
-    Name = "sonar_vpc"
+resource "aws_instance" "mySonarInstance" {
+  ami           = var.ami_id
+  key_name = var.key_name
+  instance_type = var.instance_type
+  vpc_security_group_ids = [aws_security_group.jenkins-sg-2023.id]
+  tags= {
+    Name = var.tag_name
   }
 }
- resource "aws_security_group" "security_sonar_group_2023" {
-      name        = "security_sonar_group_2023"
-      description = "security group for Sonar"
-      ingress {
-        from_port   = 9000
-        to_port     = 9000
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
 
-     ingress {
-        from_port   = 22
-        to_port     = 22
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
-  # outbound from Sonar server
-      egress {
-        from_port   = 0
-        to_port     = 65535
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
-        tags= {
-        Name = "security_sonar"
-      }
-    }
-resource "aws_instance" "mySonarInstance" {
-      ami           = "ami-0d9a665f802ae6227"
-      key_name = "kennedykey"
-      instance_type = "t2.medium"
-      vpc_security_group_ids = [aws_security_group.security_sonar_group_2023.id]
+#Create security group with firewall rules
+resource "aws_security_group" "sonar-sg-2023" {
+  name        = "my-sonar-sg-group-2025"
+  description = "security group for Sonar"
+                                        
+  ingress {
+    from_port   = 9000
+    to_port     = 9000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-      tags= {
-        Name = "sonar_instance"
-      }
-    }
+ ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-  # Create Elastic IP address for Sonar instance
-   resource "aws_eip" "mySonarInstance" {
-   vpc = true
-   instance = aws_instance.mySonarInstance.id
-   tags= {
-    Name = "sonar_elastic_ip"
+ # outbound from 
+  egress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
