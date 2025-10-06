@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "my-yohyoh-s3-bucket-2" {
+resource "aws_s3_bucket" "mys3bucketkato" {
   bucket_prefix = var.bucket_prefix
   acl = var.acl
   
