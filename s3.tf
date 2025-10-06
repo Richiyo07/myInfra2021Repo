@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "mys3bucketkato" {
+resource "aws_s3_bucket" "my-bucket-tf-state-june-2005" {
   bucket_prefix = var.bucket_prefix
   acl = var.acl
   
