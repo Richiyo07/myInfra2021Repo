@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "my-aws-s3-bucket-rich" {
+resource "aws_s3_bucket" "my-aws-s3-bucket-yohyoh" {
   bucket_prefix = var.bucket_prefix
   acl = var.acl
   
